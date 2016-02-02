@@ -16,7 +16,7 @@ public class BancoDados {
 
     //Obter uma conexão com o banco de dados.
     //URL de conexão com o banco de dados Derby local.
-    String url = "jdbc:derby:C:\\banco-de-teste;create=true";
+    String url = "jdbc:derby:C:\\bdteste;create=true";
     Connection conn = DriverManager.getConnection(url);
 
 //    conn.setAutoCommit(false);

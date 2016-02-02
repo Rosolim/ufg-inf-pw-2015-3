@@ -12,40 +12,45 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(value = "/bancodados/CadastroAluno")
 public class CadastroAlunoControle extends HttpServlet {
 
-  protected void service(
-      HttpServletRequest req,
-      HttpServletResponse resp)
-      throws ServletException, IOException {
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-    String paramMatricula = req.getParameter("matricula");
-    String matricula = paramMatricula == null ? "" : paramMatricula;
-    
-    String paramNome = req.getParameter("nome");
-    String nome = paramNome == null ? "" : paramNome;
 
-    String paramFone = req.getParameter("fone");
-    String fone = paramFone == null ? "" : paramFone;
-    
-    String paramCpf = req.getParameter("cpf");
-    String cpf = paramCpf == null ? "" : paramCpf;
+		String paramMatricula = req.getParameter("matricula");
+		String matricula = paramMatricula == null ? "" : paramMatricula;
 
-    Aluno aluno = new Aluno();
-    aluno.setMatricula(matricula);
-    aluno.setNome(nome);
-    aluno.setFone(fone);
-    aluno.setCpf(cpf);
+		String paramNome = req.getParameter("nome");
+		String nome = paramNome == null ? "" : paramNome;
 
-    if (!matricula.equals("")) {
-      aluno.incluir();
-    }
-    
-    req.setAttribute("aluno", aluno); //Passando um objeto para o JSP.
-    
-    List<Aluno> alunos = Aluno.listar();
-    req.setAttribute("alunos", alunos); //Passando uma coleção para o JSP.
-    
-    //Chamar o JSP apenas para mostrar o resultado.
-    req.getRequestDispatcher("CadastroAlunoView.jsp").forward(req, resp);
-  }
+		String paramFone = req.getParameter("fone");
+		String fone = paramFone == null ? "" : paramFone;
+
+		String paramCpf = req.getParameter("cpf");
+		String cpf = paramCpf == null ? "" : paramCpf;
+
+		Aluno aluno = new Aluno();
+		aluno.setMatricula(matricula);
+		aluno.setNome(nome);
+		aluno.setFone(fone);
+		aluno.setCpf(cpf);
+
+		if (!matricula.equals("")) {
+			if (req.getParameter("incluir") != null) {
+				aluno.incluir();
+			} else if (req.getParameter("editar") != null) {
+				aluno.editar();
+			}
+		}
+		
+
+		req.setAttribute("aluno", aluno); // Passando um objeto para o JSP.
+
+		List<Aluno> alunos = Aluno.listar();
+		req.setAttribute("alunos", alunos); // Passando uma coleção para o
+											// JSP.
+
+		// Chamar o JSP apenas para mostrar o resultado.
+		req.getRequestDispatcher("CadastroAlunoView.jsp").forward(req, resp);
+
+	}
 
 }
